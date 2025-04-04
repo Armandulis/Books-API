@@ -1,0 +1,41 @@
+services:
+  books_server:
+    container_name: books_server
+    image: php:8.2-fpm-alpine
+    command: php -S 0.0.0.0:8040 -t public
+    build: .docker/server_docker
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8041:8000"
+    depends_on:
+      - books_mysql
+
+  books_mysql:
+    container_name: books_mysql
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "8042:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: books-api
+      MYSQL_DATABASE: books-api
+      MYSQL_USER: librarian
+      MYSQL_PASSWORD: pwdAndPrejudice
+    volumes:
+      - db_data:/var/lib/mysql
+
+  books_phpmyadmin:
+    container_name: books_phpmyadmin
+    depends_on:
+      - books_mysql
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8043:80"
+    environment:
+      PMA_HOST: books_mysql
+      MYSQL_USER: librarian
+      MYSQL_PASSWORD: pwdAndPrejudice
+
+volumes:
+  db_data: {}
