@@ -10,4 +10,4 @@ and then they are stored/updated in the database.
 2. Spin up docker container `docker-compose up`
 3. Install dependencies, run `composer install` inside docker container
 4. Get database up to date, run `php bin/console doctrine:migrations:migrate`
-5. Visit http://localhost:8040/
+5. Server is on http://localhost:8041 & phpMyAdmin is on http://localhost:8043

@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/var/www/html
     ports:
-      - "8041:8000"
+      - "8041:8040"
     depends_on:
       - books_mysql
 
