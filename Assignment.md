@@ -19,7 +19,7 @@ The REST API should have its own database with information it needs and it shoul
 - Asynchronously start a job to fetch the data from one or more open book APIs (like https://openlibrary.org/dev/docs/api/search). This data is then processed and stored in the internal database. Existing data should be updated when necessary.
 - Query the internal database and return the results (which may be empty or incomplete, as the async job may still be running).
 
-Because the REST API can change in the future, we want to to have version `v1`. Version `v2` due to be released in the future at some point, will feature backwards incompatible changes in routes, requests and responses, but things like authentication will remain the same as in `v1`.
+Because the REST API can change in the future, we want to have version `v1`. Version `v2` due to be released in the future at some point, will feature backwards incompatible changes in routes, requests and responses, but things like authentication will remain the same as in `v1`.
 
 Make sure to handle cases where the external API responds that the rate limit has been reached and re-schedule the job at an appropriate time.
 

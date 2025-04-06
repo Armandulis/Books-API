@@ -21,7 +21,7 @@ services:
       MYSQL_ROOT_PASSWORD: books-api
       MYSQL_DATABASE: books-api
       MYSQL_USER: librarian
-      MYSQL_PASSWORD: pwdAndPrejudice
+      MYSQL_PASSWORD: librarian
     volumes:
       - db_data:/var/lib/mysql
 
@@ -35,7 +35,7 @@ services:
     environment:
       PMA_HOST: books_mysql
       MYSQL_USER: librarian
-      MYSQL_PASSWORD: pwdAndPrejudice
+      MYSQL_PASSWORD: librarian
 
 volumes:
   db_data: {}
