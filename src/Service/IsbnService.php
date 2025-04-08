@@ -27,4 +27,14 @@ class IsbnService
     {
         return $this->isbnRepository->findOneBy($criteria);
     }
+
+    /**
+     * Save Isbn to the database
+     * @param Isbn $isbn
+     * @return void
+     */
+    public function save(Isbn $isbn)
+    {
+        $this->isbnRepository->save($isbn);
+    }
 }

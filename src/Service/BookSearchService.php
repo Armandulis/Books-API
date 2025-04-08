@@ -43,8 +43,8 @@ class BookSearchService
 
         // Search the database
         if ($bookSearchDTO->searchType === BookSearchTypeEnum::TITLE->value) {
-            return $this->bookService->findBy(
-                ['title' => $bookSearchDTO->searchValue],
+            return $this->bookService->matchByTitle(
+                $bookSearchDTO->searchValue,
                 $bookSearchDTO->limit,
                 $bookSearchDTO->page
             );

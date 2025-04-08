@@ -20,13 +20,25 @@ class AuthorService
     {
     }
 
+
     /**
-     * Finds one author by externalId
-     * @param mixed $externalId
+     * Find one author, null if author was not found
+     * @param array<string, mixed> $criteria
      * @return Author|null
      */
-    public function findOneBy(string $externalId): ?Author
+    public function findOneBy(array $criteria): ?Author
     {
-        return $this->authorRepository->findOneBy(['externalId' => $externalId]);
+        return $this->authorRepository->findOneBy($criteria);
+    }
+
+
+    /**
+     * Saves author to the database
+     * @param Author $author
+     * @return void
+     */
+    public function save(Author $author): void
+    {
+        $this->authorRepository->save($author);
     }
 }

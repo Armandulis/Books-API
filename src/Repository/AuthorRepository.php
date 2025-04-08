@@ -20,4 +20,15 @@ class AuthorRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Author::class);
     }
+
+    /**
+     * Saves the author in the database
+     * @param Author $author
+     * @return void
+     */
+    public function save(Author $author): void
+    {
+        $this->getEntityManager()->persist($author);
+        $this->getEntityManager()->flush();
+    }
 }

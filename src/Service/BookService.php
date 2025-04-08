@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Book;
 use App\Repository\BookRepository;
-use Exception;
 
 /**
  * Class BookService
@@ -20,19 +19,13 @@ class BookService
     }
 
     /**
-     * Finds Books by criteria
-     * @param array<string, int|string|null> $criteria search by specific fields
-     * @param int $limit limit results
-     * @param int $page
-     * @return array<Book>
+     * Finds one book by criteria, null if book was not found
+     * @param array<string, mixed> $criteria
+     * @return Book|null
      */
-    public function findBy(array $criteria, int $limit = 100, int $page = 1): array
+    public function findOneBy(array $criteria): ?Book
     {
-        return $this->bookRepository->findBy(
-            $criteria,
-            limit: $limit,
-            offset: ($page - 1) * $limit
-        );
+        return $this->bookRepository->findOneBy($criteria);
     }
 
     /**
@@ -40,25 +33,9 @@ class BookService
      * @param Book $book
      * @return void
      */
-    public function saveBook(Book $book): void
+    public function save(Book $book): void
     {
-        // Find existing book by external id
-        $existingBook = $this->bookRepository->findOneBy(['externalId' => $book->getExternalId()]);
-
-        // If book doesn't exist, save the new book
-        if ($existingBook === null) {
-            $this->bookRepository->save($book);
-            return;
-        }
-
-        assert($existingBook instanceof Book);
-
-        // If book exists, just update values
-        $existingBook->setTitle($book->getTitle());
-        $existingBook->setFirstPublishYear($book->getFirstPublishYear());
-//        $existingBook->syncIsbns($book->getIsbns()->toArray());
-//        $existingBook->syncAuthors($book->getAuthors()->toArray());
-        $this->bookRepository->save($existingBook);
+        $this->bookRepository->save($book);
     }
 
 

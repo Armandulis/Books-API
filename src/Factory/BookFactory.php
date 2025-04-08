@@ -4,8 +4,6 @@ namespace App\Factory;
 
 use App\DTO\BookSearchDTO;
 use App\DTO\OpenLibraryBookDTO;
-use App\Entity\Author;
-use App\Entity\Book;
 use App\Entity\Isbn;
 use App\Service\AuthorService;
 
@@ -14,16 +12,6 @@ use App\Service\AuthorService;
  */
 class BookFactory
 {
-    /**
-     * BookFactory constructor
-     * @param AuthorService $authorService
-     */
-    public function __construct(
-        private readonly AuthorService $authorService
-    )
-    {
-    }
-
     /**
      * Creates a BookSearchDTO from array
      * @param array $searchQuery
@@ -57,30 +45,18 @@ class BookFactory
     }
 
     /**
-     * Creates book from OpenLibraryBookDTO
      * @param OpenLibraryBookDTO $openLibraryBookDTO
-     * @return Book
+     * @return array<Isbn>
      */
-    public function bookFromOpenLibraryBookDTO(OpenLibraryBookDTO $openLibraryBookDTO): Book
+    public function isbnFromOpenLibraryBookDTO(OpenLibraryBookDTO $openLibraryBookDTO): array
     {
-        $book = new Book();
-        $book->setTitle($openLibraryBookDTO->title);
-        $book->setExternalId($openLibraryBookDTO->key);
+        $isbns = [];
         $isbnList = array_filter($openLibraryBookDTO->ia, fn($entry) => str_starts_with($entry, 'isbn_'));
         foreach ($isbnList as $isbnValue) {
             $isbn = new Isbn();
             $isbn->setIsbn($isbnValue);
-            $book->addIsbn($isbn);
+            $isbns[] = $isbn;
         }
-
-        foreach ($openLibraryBookDTO->authorKeys as $key => $externalId) {
-            $author = $this->authorService->findOneBy($externalId) ?? new Author();
-            $author->setExternalId($externalId);
-            $author->setName($openLibraryBookDTO->authorNames[$key]);
-            $book->addAuthor($author);
-        }
-
-        $book->setFirstPublishYear($openLibraryBookDTO->firstPublishYear);
-        return $book;
+        return $isbns;
     }
 }
