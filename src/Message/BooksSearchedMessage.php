@@ -12,9 +12,11 @@ class BooksSearchedMessage
     /**
      * BooksSearchedMessage constructor
      * @param BookSearchDTO $bookSearchDTO
+     * @param int $attemptNumber
      */
     public function __construct(
         private readonly BookSearchDTO $bookSearchDTO,
+        private readonly int           $attemptNumber = 1,
     )
     {
     }
@@ -26,5 +28,14 @@ class BooksSearchedMessage
     public function getBookSearchDTO(): BookSearchDTO
     {
         return $this->bookSearchDTO;
+    }
+
+    /**
+     * Returns message attempt
+     * @return int
+     */
+    public function getAttemptNumber(): int
+    {
+        return $this->attemptNumber;
     }
 }

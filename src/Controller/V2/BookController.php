@@ -48,7 +48,6 @@ class BookController extends AbstractController
             $books = $this->bookSearchService->search($bookSearchDTO);
             return $this->json(['data' => $books]);
         } catch (Throwable $throwable) {
-            dd($throwable);
             // 1. Log $throwable in places like Sentry
             // 2. Return error to the user - avoid sending actual error as it may include sensitive data
             return $this->json(new ErrorResponseDTO(500, 'Could not process the request'));
