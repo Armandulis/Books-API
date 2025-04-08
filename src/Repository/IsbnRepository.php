@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Author;
+use App\Entity\Isbn;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Class AuthorRepository
- * @extends ServiceEntityRepository<Author>
+ * Class IsbnRepository
+ * @extends ServiceEntityRepository<Isbn>
  */
-class AuthorRepository extends ServiceEntityRepository
+class IsbnRepository extends ServiceEntityRepository
 {
     /**
-     * AuthorRepository constructor
+     * IsbnRepository constructor
      * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Author::class);
+        parent::__construct($registry, Isbn::class);
     }
 }
