@@ -39,10 +39,9 @@ paths:
                 properties:
                   data:
                     type: object
-                    minItems: 1
                     properties:
                       message:
-                          type: string
+                        type: string
 
         "400":
           description: Validation error
