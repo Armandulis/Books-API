@@ -13,7 +13,7 @@ asynchronously from open library api.
 5. Set up Messenger `php bin/console messenger:setup-transports`
 6. Handle Async messages `php bin/console messenger:consume async`
 7. Server is on http://localhost:8041 & phpMyAdmin is on http://localhost:8043 (login with librarian:librarian)
-8. Run tests with `composer test`
+8. Run tests with `composer test` or `composer test:coverage` (coverage doc is under `./var/coverage`, current coverage is at `92.50%` )
 
 ## How it works
 You can test it by checking OpenAPI documentation. However, i could not reproduce rate limit exceptions from OpenLibraryAPI,
@@ -29,7 +29,7 @@ books from open library API. Then we will either save or update books, authors, 
 the api we will send another message, which should be consumed only in 5 minutes. 
 
 ## Future improvements
-1. Use elastic search for searching for books - searching for words in the database text fields is expensive and slow.
+1. Use ElasticSearch for searching for books - searching for words in the database text fields is expensive and slow.
 2. Reduce the amount of request to the database when we fetch books from open library API. 
    1. Currently, we overwrite book's values and save it to database, every time we fetch it from the database, even if
 nothing changed. Instead, we should check if there are any changes.

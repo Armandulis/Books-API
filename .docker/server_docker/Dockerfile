@@ -9,13 +9,28 @@ RUN apk add --no-cache \
     curl \
     git \
     unzip \
-    bash
+    bash \
+    $PHPIZE_DEPS \
+    autoconf \
+    gcc \
+    g++ \
+    make \
+    linux-headers
 
 # Install PHP extensions
 RUN docker-php-ext-install \
     zip \
     pdo \
     pdo_mysql
+
+# Install and enable Xdebug
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+# Recommended dev config for Xdebug
+RUN echo "zend_extension=xdebug.so" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.start_with_request=no" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Install composer
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer

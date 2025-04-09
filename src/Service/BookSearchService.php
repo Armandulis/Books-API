@@ -29,7 +29,6 @@ class BookSearchService
     {
     }
 
-
     /**
      * Fetches books from database and queues a BookSearchedMessage
      * @param BookSearchDTO $bookSearchDTO
@@ -38,8 +37,10 @@ class BookSearchService
      */
     public function search(BookSearchDTO $bookSearchDTO): array
     {
-        // Queue book searched message
-        $this->messageBus->dispatch(new BooksSearchedMessage($bookSearchDTO));
+        if (BookSearchTypeEnum::tryFrom($bookSearchDTO->searchType) !== null) {
+            // Queue book searched message if the search is valid
+            $this->messageBus->dispatch(new BooksSearchedMessage($bookSearchDTO));
+        }
 
         // Search the database
         if ($bookSearchDTO->searchType === BookSearchTypeEnum::TITLE->value) {

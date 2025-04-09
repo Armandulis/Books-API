@@ -20,7 +20,6 @@ class AuthorService
     {
     }
 
-
     /**
      * Find one author, null if author was not found
      * @param array<string, mixed> $criteria

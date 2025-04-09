@@ -41,24 +41,24 @@ class BookService
 
     /**
      * Finds books that matches title
-     * @param string|null $searchValue
+     * @param string $searchValue
      * @param int|null $limit
      * @param int|null $page
      * @return array<Book>
      */
-    public function matchByTitle(?string $searchValue, ?int $limit = null, ?int $page = null): array
+    public function matchByTitle(string $searchValue, ?int $limit = null, ?int $page = null): array
     {
         return $this->bookRepository->matchByTitle($searchValue, $limit, ($page - 1) * $limit);
     }
 
     /**
      * Finds books that matches author's name
-     * @param string|null $searchValue
+     * @param string $searchValue
      * @param int|null $limit
      * @param int|null $page
      * @return array<Book>
      */
-    public function matchByAuthorName(?string $searchValue, ?int $limit = null, ?int $page = null): array
+    public function matchByAuthorName(string $searchValue, ?int $limit = null, ?int $page = null): array
     {
         return $this->bookRepository->matchByAuthorName($searchValue, $limit, ($page - 1) * $limit);
     }

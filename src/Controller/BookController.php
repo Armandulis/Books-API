@@ -38,7 +38,7 @@ class BookController extends AbstractController
             return $this->json(new ErrorResponseDTO(400, 'Nera paieskos tipo'));
         }
 
-        if (empty($bookSearchDTO->searchType)) {
+        if (empty($bookSearchDTO->searchValue)) {
             return $this->json(new ErrorResponseDTO(400, 'Nera paieskos'));
         }
 
@@ -49,7 +49,7 @@ class BookController extends AbstractController
         } catch (Throwable $throwable) {
             // 1. Log exception in places like Sentry
             // 2. Return error to the user - avoid sending actual error as it may include sensitive data
-            return $this->json(new ErrorResponseDTO(500, 'Could not process the request'));
+            return $this->json(new ErrorResponseDTO(500, 'Kazkas nutiko'));
         }
     }
 }

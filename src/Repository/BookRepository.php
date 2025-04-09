@@ -53,7 +53,14 @@ class BookRepository extends ServiceEntityRepository
         return $qb->getResult();
     }
 
-    public function matchByTitle(?string $searchTitle, ?int $limit, int $offset = 0)
+    /**
+     * Searches book by title
+     * @param string $searchTitle books title to search for
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return array<Book>
+     */
+    public function matchByTitle(string $searchTitle, ?int $limit = 100, ?int $offset = 0): array
     {
         $qb = $this->createQueryBuilder('book')
             ->select('book')

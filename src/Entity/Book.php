@@ -139,7 +139,6 @@ class Book implements JsonSerializable
     public function removeIsbn(Isbn $isbn): static
     {
         if ($this->isbns->removeElement($isbn)) {
-            // set the owning side to null (unless already changed)
             if ($isbn->getBook() === $this) {
                 $isbn->setBook(null);
             }

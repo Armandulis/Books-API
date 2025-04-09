@@ -54,11 +54,11 @@ class BooksSearchedMessageHandler
         try {
             // Search books
             $bookSearchDTO = $message->getBookSearchDTO();
-
             $bookDTOs = $this->openLibraryService->searchBooks($bookSearchDTO);
 
             foreach ($bookDTOs as $bookDTO) {
 
+                // Creat/update authors
                 $authors = [];
                 foreach ($bookDTO->authorKeys as $key => $externalId) {
                     $author = $this->authorService->findOneBy(['externalId' => $externalId]) ?? new Author();
@@ -68,6 +68,7 @@ class BooksSearchedMessageHandler
                     $authors[] = $author;
                 }
 
+                // Create/update book
                 $book = $this->bookService->findOneBy(['externalId' => $bookDTO->key]) ?? new Book();
                 $book->setTitle($bookDTO->title);
                 $book->setExternalId($bookDTO->key);
@@ -76,6 +77,7 @@ class BooksSearchedMessageHandler
                 $book->getIsbns()->clear();
                 $this->bookService->save($book);
 
+                // Create isbns
                 $isbns = $this->bookFactory->isbnFromOpenLibraryBookDTO($bookDTO);
                 foreach ($isbns as $isbn) {
                     $isbn->setBook($book);
@@ -85,8 +87,7 @@ class BooksSearchedMessageHandler
         } catch (Throwable $throwable) {
             // Rate limit is returned as 403
             if ($throwable->getCode() === 403) {
-                if( $message->getAttemptNumber() == self::MAX_ATTEMPTS)
-                {
+                if ($message->getAttemptNumber() == self::MAX_ATTEMPTS) {
                     // Log that we failed up to maximum attempts and queue message to dead letter queue.
                     return;
                 }
@@ -100,6 +101,5 @@ class BooksSearchedMessageHandler
             }
             // Log exception and queue message to dead letter queue.
         }
-
     }
 }
