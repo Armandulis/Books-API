@@ -13,6 +13,7 @@ asynchronously from open library api.
 5. Set up Messenger `php bin/console messenger:setup-transports`
 6. Handle Async messages `php bin/console messenger:consume async`
 7. Server is on http://localhost:8041 & phpMyAdmin is on http://localhost:8043 (login with librarian:librarian)
+8. Run tests with `composer test`
 
 ## How it works
 You can test it by checking OpenAPI documentation. However, i could not reproduce rate limit exceptions from OpenLibraryAPI,

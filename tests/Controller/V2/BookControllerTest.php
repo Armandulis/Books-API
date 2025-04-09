@@ -2,14 +2,12 @@
 
 namespace App\Tests\Controller\V2;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
 
-final class BookControllerTest extends WebTestCase{
+final class BookControllerTest extends TestCase
+{
     public function testIndex(): void
     {
-        $client = static::createClient();
-        $client->request('GET', '/v2/book');
-
-        self::assertResponseIsSuccessful();
+        self::fail("hehe");
     }
 }
