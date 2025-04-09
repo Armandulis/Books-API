@@ -8,7 +8,7 @@ asynchronously from open library api.
 ## Starting up the project in docker
 1. Build docker container `docker-compose build --no-cache`
 2. Spin up docker container `docker-compose up`
-3. Install dependencies `composer install` inside docker container
+3. Install dependencies `composer install` *this and rest of the commands inside docker container*
 4. Get database up to date `php bin/console doctrine:migrations:migrate`
 5. Set up Messenger `php bin/console messenger:setup-transports`
 6. Handle Async messages `php bin/console messenger:consume async`
