@@ -21,7 +21,12 @@ class IsbnRepository extends ServiceEntityRepository
         parent::__construct($registry, Isbn::class);
     }
 
-    public function save(Isbn $isbn)
+    /**
+     * Saves the Isbn in the database
+     * @param Isbn $isbn
+     * @return void
+     */
+    public function save(Isbn $isbn): void
     {
         $this->getEntityManager()->persist($isbn);
         $this->getEntityManager()->flush();

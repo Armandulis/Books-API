@@ -13,7 +13,8 @@ asynchronously from open library api.
 5. Set up Messenger `php bin/console messenger:setup-transports`
 6. Handle Async messages `php bin/console messenger:consume async`
 7. Server is on http://localhost:8041 & phpMyAdmin is on http://localhost:8043 (login with librarian:librarian)
-8. Run tests with `composer test` or `composer test:coverage` (coverage doc is under `./var/coverage`, current coverage is at `92.50%` )
+8. Run tests with `composer test` or `composer test:coverage` (coverage doc is under `./var/coverage`, current coverage is at `93.65%` )
+9. There is JWT authentication, before you can access book search endpoint, you need to register and login via `/api/register`, `/api/login`
 
 ## How it works
 You can test it by checking OpenAPI documentation. However, i could not reproduce rate limit exceptions from OpenLibraryAPI,

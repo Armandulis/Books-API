@@ -13,10 +13,12 @@ class ErrorResponseDTO implements JsonSerializable
      * ErrorResponseDTO constructor
      * @param int|null $code
      * @param string $message
+     * @param array|null $errors
      */
     public function __construct(
         public ?int   $code = null,
-        public string $message = ''
+        public string $message = '',
+        public ?array $errors = null,
     )
     {
     }
@@ -28,8 +30,9 @@ class ErrorResponseDTO implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'error' => $this->code,
-            'message' => $this->message
+            'code' => $this->code,
+            'message' => $this->message,
+            'errors' => $this->errors
         ];
     }
 }

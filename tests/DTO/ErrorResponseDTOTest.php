@@ -22,8 +22,9 @@ final class ErrorResponseDTOTest extends TestCase
 
         // And it should serialize correctly
         $expectedSerialized = [
-            'error' => 404,
-            'message' => 'Not Found'
+            'code' => 404,
+            'message' => 'Not Found',
+            'errors' => null
         ];
 
         self::assertSame($expectedSerialized, $dto->jsonSerialize());

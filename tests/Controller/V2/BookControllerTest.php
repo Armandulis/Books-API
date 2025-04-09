@@ -56,7 +56,7 @@ final class BookControllerTest extends TestCase
         $response = $this->bookController->searchBooks($this->request);
 
         // Then we expect to receive error response
-        self::assertSame(400, json_decode($response->getContent(), true)['error']);
+        self::assertSame(400, json_decode($response->getContent(), true)['code']);
         self::assertSame('Missing search type', json_decode($response->getContent(), true)['message']);
     }
 
@@ -74,7 +74,7 @@ final class BookControllerTest extends TestCase
         $response = $this->bookController->searchBooks($this->request);
 
         // Then we expect to receive error response
-        self::assertSame(400, json_decode($response->getContent(), true)['error']);
+        self::assertSame(400, json_decode($response->getContent(), true)['code']);
         self::assertSame('Missing search type', json_decode($response->getContent(), true)['message']);
     }
 
@@ -92,7 +92,7 @@ final class BookControllerTest extends TestCase
         $response = $this->bookController->searchBooks($this->request);
 
         // Then we expect to receive error response
-        self::assertSame(400, json_decode($response->getContent(), true)['error']);
+        self::assertSame(400, json_decode($response->getContent(), true)['code']);
         self::assertSame('Missing search value', json_decode($response->getContent(), true)['message']);
     }
 
@@ -115,7 +115,7 @@ final class BookControllerTest extends TestCase
         $response = $this->bookController->searchBooks($this->request);
 
         // Then we expect to receive error response
-        self::assertSame(500, json_decode($response->getContent(), true)['error']);
+        self::assertSame(500, json_decode($response->getContent(), true)['code']);
         self::assertSame('Could not process the request', json_decode($response->getContent(), true)['message']);
     }
 
