@@ -8,9 +8,95 @@ servers:
     description: local
 
 paths:
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: librarian@gmail.com
+                password:
+                  type: string
+                  format: password
+                  example: librarian
+      responses:
+        "200":
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    minItems: 1
+                    properties:
+                      message:
+                          type: string
+
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+
+  /api/login:
+    post:
+      summary: Authenticate user and retrieve JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - username
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                username:
+                  type: string
+                  example: librarian
+      responses:
+        "200":
+          description: Authentication successful, JWT returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: jwttoken123124214
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+
   /v2/books/search:
     get:
       summary: "v2 latest version - Fetch books by book's title, author, or isbn"
+      security:
+        - Bearer: [ ]
       parameters:
         - in: query
           name: searchType
@@ -95,6 +181,8 @@ paths:
   /v1/knygos/paieska:
     get:
       summary: "v1 lithuanian endpoint - Fetch books by book's title, author, or isbn"
+      security:
+        - Bearer: [ ]
       parameters:
         - in: query
           name: paieskosTipas
@@ -176,16 +264,27 @@ paths:
                           items:
                             type: array
                             description: A list of book's ISBNs
+
 components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     Errors:
       properties:
-        error:
+        code:
           type: integer
           description: Status code
         message:
           type: string
           description: Exception message
+        errors:
+          type: array
+          minItems: 0
+          description: In case of errors in specific fields, this field is set to return error message for each field
     Authors:
       properties:
         id:
