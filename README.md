@@ -6,6 +6,7 @@ and then they are stored/updated in the database. Results are returned from the 
 asynchronously from open library api.
 
 ## Starting up the project in docker
+
 1. Build docker container `docker-compose build --no-cache`
 2. Spin up docker container `docker-compose up`
 3. Install dependencies `composer install` *this and rest of the commands inside docker container*
@@ -17,22 +18,34 @@ asynchronously from open library api.
 9. There is JWT authentication, before you can access book search endpoint, you need to register and login via `/api/register`, `/api/login`
 
 ## How it works
-You can test it by checking OpenAPI documentation. However, i could not reproduce rate limit exceptions from OpenLibraryAPI,
-so instead you could manually throw an exception in message handler, so that try/catch block sends another message with a delay. 
 
 There are 2 controllers, representing 2 versions of api. I marked BookController v1 as deprecated, 
 it uses non-english endpoints. V2 controller uses English endpoints, v2 controller is the one that should be used by new 
 users, but v1 is still supported for users that have implementation with it.
 
-Once user sends a request to one of the endpoints, we will search the database for book by either title, author, isbn. 
-At the same time a message is published with user's search. This message is handled asynchronously - it tries to fetch 
-books from open library API. Then we will either save or update books, authors, and isbn. In case we reach rate limit to
-the api we will send another message, which should be consumed only in 5 minutes. 
+Once user sends a request to one of the endpoints, we will search the database for book by either title, author, isbn 
+(These fields are indexed in the database). At the same time a message is published with user's search. This message is 
+handled asynchronously - it tries to fetch books from open library API. Then we will either save or update books, authors,
+and isbn. In case we reach rate limit to the api we will send another message, which should be consumed only in 5 minutes 
+(I assumed that there's 100 requests per 5 minutes rate limit). However, i could not reproduce rate limit exceptions from
+OpenLibraryAPI, so instead you could manually throw an exception in message handler, so that try/catch block sends another message with a delay.
+
+You can test the project by checking OpenAPI documentation.
+1. Create a user by sending a POST request to `/api/register` - pass email and password in body
+2. Login by sending a POST request to `/api/register` - pass email, password and username (username same as email)
+3. From the login, you should receive a JWT bearer token, you need to use this token in header for next requests
+4. Send a request to `/api/v2/books/search?searchType=title&searchValue=throne+of+glass`, Try all 3 searchable fields:
+   - Title: `?searchType=title&searchValue=throne+of+glass`
+   - Author: `?searchType=author&searchValue=tolkien`
+   - ISBN: `?searchType=isbn&searchValue=isbn_9780786296651`
+   - You can also paginate by passing optional parameters `page=2` and `limit=25`
+
 
 ## Future improvements
+
 1. Use ElasticSearch for searching for books - searching for words in the database text fields is expensive and slow.
 2. Reduce the amount of request to the database when we fetch books from open library API. 
-   1. Currently, we overwrite book's values and save it to database, every time we fetch it from the database, even if
+   - Currently, we overwrite book's values and save it to database, every time we fetch it from the database, even if
 nothing changed. Instead, we should check if there are any changes.
-   2. Similar thing for authors and ISBN. Instead of removing all authors from the book and adding new authors, we 
+   - Similar thing for authors and ISBN. Instead of removing all authors from the book and adding new authors, we 
 should only remove missing authors, and add new authors.
