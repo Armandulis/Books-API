@@ -6,6 +6,7 @@ use App\Repository\IsbnRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: IsbnRepository::class)]
+#[ORM\Index(name: 'idx_isbn_isbn', columns: ['isbn'])]
 class Isbn
 {
     #[ORM\Id]

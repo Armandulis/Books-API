@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[ORM\Index(name: 'idx_book_title', columns: ['title'])]
 class Book implements JsonSerializable
 {
     #[ORM\Id]

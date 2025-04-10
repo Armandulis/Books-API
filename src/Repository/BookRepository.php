@@ -44,8 +44,8 @@ class BookRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('book')
             ->select('book')
             ->innerJoin('book.authors', 'author')
-            ->where('LOWER(author.name) LIKE :searchName')
-            ->setParameter('searchName', '%' . strtolower($authorName) . '%')
+            ->where('author.name LIKE :searchName')
+            ->setParameter('searchName', '%' . $authorName . '%')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             ->getQuery();
@@ -64,8 +64,8 @@ class BookRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('book')
             ->select('book')
-            ->where('LOWER(book.title) LIKE :searchTitle')
-            ->setParameter('searchTitle', '%' . strtolower($searchTitle) . '%')
+            ->where('book.title LIKE :searchTitle')
+            ->setParameter('searchTitle', '%' . $searchTitle . '%')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             ->getQuery();
