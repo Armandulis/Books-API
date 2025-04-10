@@ -30,7 +30,7 @@ and isbn. In case we reach rate limit to the api we will send another message, w
 (I assumed that there's 100 requests per 5 minutes rate limit). However, i could not reproduce rate limit exceptions from
 OpenLibraryAPI, so instead you could manually throw an exception in message handler, so that try/catch block sends another message with a delay.
 
-You can test the project by checking OpenAPI documentation.
+You can test the project by checking project's [OpenAPI](./openapi/openapi.yml) documentation.
 1. Create a user by sending a POST request to `/api/register` - pass email and password in body
 2. Login by sending a POST request to `/api/register` - pass email, password and username (username same as email)
 3. From the login, you should receive a JWT bearer token, you need to use this token in header for next requests
@@ -45,7 +45,7 @@ You can test the project by checking OpenAPI documentation.
 
 1. Use ElasticSearch for searching for books - searching for words in the database text fields is expensive and slow.
 2. Reduce the amount of request to the database when we fetch books from open library API. 
-   - Currently, we overwrite book's values and save it to database, every time we fetch it from the database, even if
+   - Currently, we overwrite book's values and save it to database, every time we fetch it from the open library api, even if
 nothing changed. Instead, we should check if there are any changes.
    - Similar thing for authors and ISBN. Instead of removing all authors from the book and adding new authors, we 
 should only remove missing authors, and add new authors.
